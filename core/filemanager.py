@@ -50,7 +50,10 @@ class FileManager:
         """Otwiera plik w określonym trybie. Prywatne - NIE UŻYWAĆ poza filemanager."""
         full_path = os.path.join(FileManager.get_root(), path)
         try:
-            return open(full_path, mode)
+            # Use explicit UTF-8 for text modes to avoid encoding issues
+            if 'b' in mode:
+                return open(full_path, mode)
+            return open(full_path, mode, encoding='utf-8')
         except:
             raise FileNotFoundException
 
