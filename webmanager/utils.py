@@ -185,23 +185,49 @@ class MapBuilder:
 
 
 class BotManager:
-    pid = None
+    """Manage bot lifecycle: run TWB in a background thread so output appears in the same console as server."""
+    def __init__(self):
+        self.thread = None
+        self.instance = None
 
     def is_running(self):
-        if not self.pid:
-            return False
-        if psutil.pid_exists(self.pid):
-            return True
-        self.pid = False
-        return False
+        return True if (self.thread and self.thread.is_alive()) else False
 
     def start(self):
-        wd = os.path.join(os.path.dirname(__file__), "..")
-        proc = subprocess.Popen("python twb.py", cwd=wd, shell=True)
-        self.pid = proc.pid
-        print("Bot started successfully")
+        if self.is_running():
+            print("Bot is already running")
+            return
+        try:
+            # import lazily to avoid circular imports on module load
+            import threading
+            import twb
+
+            def _run_bot():
+                try:
+                    self.instance = twb.TWB()
+                    self.instance.run()
+                except Exception as e:
+                    print(f"Bot thread exited with error: {e}")
+
+            self.thread = threading.Thread(target=_run_bot, daemon=True)
+            self.thread.start()
+            print("Bot started successfully (wątku)")
+        except Exception as e:
+            print("Nie udało się uruchomić bota:", e)
 
     def stop(self):
-        if self.is_running():
-            os.kill(self.pid, sig=0)
-            print("Bot stopped successfully")
+        if not self.is_running():
+            print("Bot nie jest uruchomiony")
+            return
+        try:
+            # signal the running instance to stop
+            if self.instance:
+                self.instance.should_run = False
+            # wait briefly for thread to exit
+            self.thread.join(timeout=5)
+            if self.thread.is_alive():
+                print("Bot nie zakończył się w oczekiwanym czasie")
+            else:
+                print("Bot zatrzymany pomyślnie")
+        except Exception as e:
+            print("Błąd podczas zatrzymywania bota:", e)
