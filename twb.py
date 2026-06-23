@@ -1,5 +1,5 @@
 """
-TWB - an open source Tribal Wars bot
+TWB - otwarty bot do Tribal Wars
 """
 #
 # This file is part of the TWB distribution (https://github.com/stefan2200/TWB).
@@ -57,7 +57,7 @@ os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
 
 def signal_handler(sig, frame):
-    print('Exiting...')
+    print('Wychodzę...')
     sys.exit(0)
 
 
@@ -66,8 +66,8 @@ signal.signal(signal.SIGINT, signal_handler)
 
 class TWB:
     """
-    Core class that manages activating times, sleeps, general web wrapper
-    Also verifies, merges and updates the config file automatically
+    Główna klasa zarządzająca czasami aktywności, sen, ogólny wrapper WWW
+    Także weryfikuje, scala i automatycznie aktualizuje plik konfiguracyjny
     """
     res = None
     villages = []
@@ -79,7 +79,7 @@ class TWB:
     @staticmethod
     def internet_online():
         """
-        Checks whether the bot has internet access
+        Sprawdza, czy bot ma dostęp do internetu
         """
         try:
             requests.get("https://github.com/stefan2200/TWB", timeout=(10, 60))
@@ -89,14 +89,14 @@ class TWB:
 
     def manual_config(self):
         """
-        Runs through manual steps of configuring the bot
+        Uruchamia ręczne kroki konfiguracji bota
         """
         logging.info(
-            "Hello and welcome, it looks like you don't have a config file (yet)"
+            "Cześć i powitanie, wygląda na to, że nie masz jeszcze pliku konfiguracyjnego"
         )
         if not FileManager.path_exists("config.example.json"):
             logging.error(
-                "Oh no, config.example.json and config.json do not exist. You broke something didn't you?"
+                "O nie, config.example.json i config.json nie istnieją. Czegoś tam zepsułeś, co?"
             )
             return False
         logging.info(

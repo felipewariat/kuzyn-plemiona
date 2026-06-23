@@ -1,5 +1,5 @@
 """
-Used to create snobs
+Używane do tworzenia szlachty
 """
 import json
 import logging
@@ -10,7 +10,7 @@ from core.extractors import Extractor
 
 class SnobManager:
     """
-    Create the snob manager
+    Utwórz menedżera szlachty
     """
     wrapper = None
     village_id = None
@@ -24,14 +24,14 @@ class SnobManager:
 
     def level_system(self):
         """
-        Just return 0, that's what it does
-        Just that, nothing more
+        Wróć 0, to wszystko co robi
+        Tylko to, nic więcej
         """
         return 0
 
     def __init__(self, wrapper=None, village_id=None):
         """
-        Create the snob manager class
+        Utwórz klasę menedżera szlachty
         """
         self.wrapper = wrapper
         self.village_id = village_id
@@ -39,7 +39,7 @@ class SnobManager:
 
     def need_reserve(self, text):
         """
-        Checks in a weird way if there is enough gold coins or stored resources
+        Sprawdzaj w dziwny sposób, czy są wystarczające monety złota lub zgromadzone zasoby
         """
         if not self.using_coin_system:
             need_amount = re.search(

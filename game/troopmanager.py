@@ -1,5 +1,5 @@
 """
-Anything that has to do with the recruiting of troops
+Wszystko co ma związek z rekrutacją wojsk
 """
 import logging
 import math
@@ -12,7 +12,7 @@ from game.resources import ResourceManager
 
 class TroopManager:
     """
-    Troopmanager class
+    Klasa menedżera wojsk
     """
     can_recruit = True
     can_attack = True
@@ -42,7 +42,7 @@ class TroopManager:
 
     wanted = {"barracks": {}}
 
-    # Maps troops to the building they are created from
+    # Mapuje wojska na budynek, z którego są tworzone
     unit_building = {
         "spear": "barracks",
         "sword": "barracks",

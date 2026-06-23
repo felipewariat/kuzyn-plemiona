@@ -1,5 +1,5 @@
 """
-File used for data extraction
+Plik używany do ekstrakcji danych
 """
 
 import json
@@ -8,13 +8,13 @@ import re
 
 class Extractor:
     """
-    Defines various non-compiled regexes for data retrieval
-    TODO: use compiled various for CPU efficiency
+    Definiuje różne niekompilowane wyrażenia regularne do pobierania danych
+    TODO: uży skompilowanych dla efektywności CPU
     """
     @staticmethod
     def village_data(res):
         """
-        Detects village data on a page
+        Wykrywa dane wsi na stronie
         """
         if type(res) != str:
             res = res.text
@@ -26,7 +26,7 @@ class Extractor:
     @staticmethod
     def game_state(res):
         """
-        Detects the game state that is available on most pages
+        Wykrywa stan gry dostepny na większości stron
         """
         if type(res) != str:
             res = res.text
@@ -38,7 +38,7 @@ class Extractor:
     @staticmethod
     def building_data(res):
         """
-        Fetches building data from the main building
+        Pobiera dane budynków z głównego budynku
         """
         if type(res) != str:
             res = res.text

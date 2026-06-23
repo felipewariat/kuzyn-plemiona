@@ -1,6 +1,6 @@
 @echo off
 
-echo Checking Python installation
+echo Sprawdzanie instalacji Pythona
 goto :CHECK_PY
 
 :CHECK_PY
@@ -9,19 +9,19 @@ python -V | find "Python"    >NUL 2>NUL && (goto :PY_YAY)
 goto :EOF
 
 :PY_NO
-echo Python is not installed on your system.
-echo The download page should automatically open.
-echo During installation please make sure that the Add Python 3.x to PATH is selected
+echo Python nie jest zainstalowany w systemie.
+echo Strona pobierania powinna otworzyć się automatycznie.
+echo Podczas instalacji upewnij się, że opcja Dodaj Python 3.x do PATH jest wybrana
 start "" "https://www.python.org/downloads/windows/"
-echo "After installing run this script again! Press enter to close this window"
+echo "Po zainstalowaniu uruchom ten skrypt ponownie! Naciśnij enter aby zamknąć to okno"
 pause
 goto :EOF
 
 :PY_YAY
 for /f "delims=" %%V in ('python -V') do @set ver=%%V
-echo Python, %ver% was found [OK]
+echo Python, %ver% został znaleziony [OK]
 
-echo Checking PIP installation
+echo Sprawdzanie instalacji PIP
 goto :CHECK_PIP
 
 :CHECK_PIP
@@ -31,21 +31,21 @@ goto :EOF
 
 :PIP_NO
 echo Python pip.
-echo The download page should automatically open.
+echo Strona pobierania powinna otworzyć się automatycznie.
 start "" "https://pip.pypa.io/en/stable/installation/"
-echo "After installing run this script again! Press enter to close this window"
+echo "Po zainstalowaniu uruchom ten skrypt ponownie! Naciśnij enter aby zamknąć to okno"
 pause
 goto :EOF
 
 :PIP_YAY
 for /f "delims=" %%V in ('python -m pip --version') do @set ver=%%V
-echo Python pip, %ver% was found [OK]
-echo Installing and upgrading dependencies
+echo Python pip, %ver% został znaleziony [OK]
+echo Instalowanie i aktualizowanie zależności
 python -m pip install --upgrade -r requirements.txt
-echo Verifying bot integrity
+echo Weryfikacja integralności bota
 python twb.py -i 2>NUL
 if errorlevel 1 goto VERIFY_FAIL
-echo Bot verify [OK]
+echo Weryfikacja bota [OK]
 pause
 goto :EOF
 

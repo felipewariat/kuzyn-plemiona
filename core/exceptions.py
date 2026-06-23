@@ -1,41 +1,41 @@
 class VillageInitException(Exception):
     """
-    Error when village init does not happen correctly
+    Błąd podczas inicjalizacji wsi
     """
 
 
 class VillageNotExists(Exception):
     """
-    A village is added to the bot that is not configured in the config file
+    Wieś została dodana do bota, ale nie jest skonfigurowana w pliku konfiguracyjnym
     """
 
 
 class InvalidGameStateException(Exception):
     """
-    There was an error reading the game state of the village
+    Błąd podczas odczytu stanu gry wsi
     """
 
 
 class InvalidUnitTemplateException(Exception):
     """
-    The selected unit template for the village is either missing or corrupted
+    Wybrany szablon jednostek dla wsi jest brakujący lub uszkodzony
     """
 
 
 class InvalidJSONException(Exception):
     """
-    The JSON file I'm trying to read is corrupted and cannot be parsed
+    Plik JSON, który próbuję odczytać, jest uszkodzony i nie można go przeanalizować
     """
 
 
 class FileNotFoundException(Exception):
     """
-    The file I'm trying to read does not exist and is expected to be there
+    Plik, który próbuję odczytać, nie istnieje, a powinien być tam
     """
 
 
 class UnsupportedPythonVersion(Exception):
     """
-    You are trying run the bot with an outdated python version
-    Updating to Python3 fixes this issue
+    Próbujesz uruchomić bota ze staromodną wersją Pythona
+    Aktualizacja do Python3 rozwiąże ten problem
     """

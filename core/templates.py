@@ -1,18 +1,18 @@
 """
-Manages template files
+Zarządza plikami szablonów
 """
 from core.filemanager import FileManager
 
 
 class TemplateManager:
     """
-    Template manager file
+    Plik menedżera szablonów
     """
     @staticmethod
     def get_template(category, template="basic", output_json=False):
         """
-        Reads a specific text file with arguments
-        TODO: switch to improved FileManager
+        Odczytuje konkretny plik tekstowy z argumentami
+        TODO: przejść do ulepszonego FileManagera
         """
         path = f"templates/{category}/{template}.txt"
         if output_json:

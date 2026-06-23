@@ -1,5 +1,5 @@
 """
-Update checking logic
+Logika sprawdzania aktualizacji
 """
 
 import json
@@ -11,8 +11,8 @@ import logging
 
 def check_update():
     """
-    If enabled, check whether the config template version matches the one on github
-    Notify and 5 seconds sleep if update is available
+    Jeśli włączone, sprawdź czy wersja szablonu konfiguracji pasuje do tej na githubie
+    Powiadom i 5 sekund przerwy, jeśli aktualizacja jest dostępna
     """
     get_local_config_template_version = os.path.join(
         os.path.dirname(__file__),
@@ -37,10 +37,10 @@ def check_update():
         ).json()
         if parsed["build"]["version"] != get_remote_version["build"]["version"]:
             logging.warning(
-                "There is a new version of the bot available. \n"
-                "Download the latest release from: \n"
+                "Dostepna jest nowa wersja bota.\n"
+                "Pobierz najnowszą wydanie z::\n"
                 "https://github.com/stefan2200/TWB"
             )
             time.sleep(5)
         else:
-            logging.info("The bot is up-to-date")
+            logging.info("Bot jest aktualny")

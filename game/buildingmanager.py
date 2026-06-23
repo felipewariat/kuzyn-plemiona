@@ -1,5 +1,5 @@
 """
-Manages building management manager
+Zarządza menedżerem zarządzania budynkami
 """
 import logging
 import random
@@ -11,13 +11,13 @@ from core.extractors import Extractor
 
 class BuildingManager:
     """
-    Core class for building management
+    Podstawowa klasa do zarządzania budynkami
     """
     logger = None
     levels = {}
 
-    # Amount of building in the queue to look ahead into
-    # Increasing this will gain massive points but lack of resources
+    # Liczba budyneków w kolejce do zajrzenia
+    # Zwiększenie tego da ogromne punkty, ale niewystarczające zasoby
     max_lookahead = 2
 
     queue = []
@@ -39,14 +39,14 @@ class BuildingManager:
 
     def __init__(self, wrapper, village_id):
         """
-        Create the building manager
+        Utwórz menedżera budynków
         """
         self.wrapper = wrapper
         self.village_id = village_id
 
     def create_update_links(self, extracted_buildings):
         """
-        Creates update links for a building
+        Tworzy linki aktualizacji dla budynku
         """
         link = self.game_state["link_base_pure"] + "main&action=upgrade_building"
 

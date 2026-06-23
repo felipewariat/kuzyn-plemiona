@@ -5,32 +5,32 @@ from core.exceptions import InvalidJSONException, FileNotFoundException
 
 
 class FileManager:
-    """Provides methods for file and directory management."""
+    """Zapewnia metody do zarządzania plikami i katalogami."""
 
     @staticmethod
     def get_root():
-        """Returns the root directory of the project."""
+        """Zwraca katalog główny projektu."""
         return os.path.join(os.path.dirname(__file__), "..")
 
     @staticmethod
     def get_path(path):
-        """Returns the full path of a file or directory in the project."""
+        """Zwraca pełną ścieżkę pliku lub katalogu w projekcie."""
         return os.path.join(FileManager.get_root(), path)
 
     @staticmethod
     def path_exists(path):
-        """Returns True if the path exists, False otherwise."""
+        """Zwraca True, jeśli ścieżka istnieje, False w przeciwnym razie."""
         return os.path.exists(path)
 
     @staticmethod
     def create_directory(directory):
-        """Creates a directory if it does not exist."""
+        """Tworzy katalog, jeśli nie istnieje."""
         if not os.path.exists(directory):
             os.makedirs(directory)
 
     @staticmethod
     def create_directories(directories):
-        """Creates a list of directories in the root directory if they do not exist."""
+        """Tworzy listę katalogów w katalogu głównym, jeśli nie istnieją."""
         root_directory = FileManager.get_root()
         for directory in directories:
             directory = os.path.join(root_directory, directory)
@@ -38,8 +38,7 @@ class FileManager:
 
     @staticmethod
     def list_directory(directory, ends_with=None):
-        """Returns a list of files in a directory. If ends_with is specified, only files ending with the specified
-        string will be returned."""
+        """Zwraca listę plików w katalogu. Jeśli ends_with jest określony, tylko pliki kończące się wskazanym ciągiem zostaną zwrócone."""
         full_path = os.path.join(FileManager.get_root(), directory)
         files = os.listdir(full_path)
         if ends_with:
@@ -48,7 +47,7 @@ class FileManager:
 
     @staticmethod
     def __open_file(path, mode="r"):
-        """Opens a file in the specified mode. Private do NOT use outside filemanager."""
+        """Otwiera plik w określonym trybie. Prywatne - NIE UŻYWAĆ poza filemanager."""
         full_path = os.path.join(FileManager.get_root(), path)
         try:
             return open(full_path, mode)
@@ -57,7 +56,7 @@ class FileManager:
 
     @staticmethod
     def read_file(path):
-        """Reads the contents of a file and returns the data. Returns None if the file does not exist."""
+        """Odczytuje zawartość pliku i zwraca dane. Zwraca None, jeśli plik nie istnieje."""
         full_path = os.path.join(FileManager.get_root(), path)
 
         if not FileManager.path_exists(full_path):
@@ -68,7 +67,7 @@ class FileManager:
 
     @staticmethod
     def read_lines(path):
-        """Reads the contents of a file and returns the lines. Returns None if the file does not exist."""
+        """Odczytuje zawartość pliku i zwraca linie. Zwraca None, jeśli plik nie istnieje."""
         full_path = os.path.join(FileManager.get_root(), path)
 
         if not FileManager.path_exists(full_path):
@@ -79,7 +78,7 @@ class FileManager:
 
     @staticmethod
     def remove_file(path):
-        """Removes a file if it exists."""
+        """Usuwa plik, jeśli istnieje."""
         full_path = os.path.join(FileManager.get_root(), path)
 
         if FileManager.path_exists(full_path):
@@ -87,7 +86,7 @@ class FileManager:
 
     @staticmethod
     def load_json_file(path, **kwargs):
-        """Loads a JSON file and returns the data. Returns None if the file does not exist."""
+        """Ładuje plik JSON i zwraca dane. Zwraca None, jeśli plik nie istnieje."""
         full_path = os.path.join(FileManager.get_root(), path)
 
         if not FileManager.path_exists(full_path):

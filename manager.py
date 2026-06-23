@@ -10,19 +10,19 @@ from game.reports import ReportCache
 class VillageManager:
     @staticmethod
     def farm_manager(verbose=False, clean_reports=False):
-        logger = logging.getLogger("FarmManager")
+        logger = logging.getLogger("Menedżer farmy")
         with open("config.json", "r") as f:
             config = json.load(f)
 
         if verbose:
-            logger.info("Villages: %d", len(config["villages"]))
+            logger.info("Wsie: %d", len(config["villages"]))
         attacks = AttackCache.cache_grab()
         reports = ReportCache.cache_grab()
 
         if verbose:
-            logger.info("Reports: %d", len(reports))
-            logger.info("Farms: %d", len(attacks))
-        t = {"wood": 0, "iron": 0, "stone": 0}
+            logger.info("Raporty: %d", len(reports))
+            logger.info("Farmy: %d", len(attacks))
+        t = {"drewno": 0, "\u017celazo": 0, "kamią": 0}
         for farm in attacks:
             data = attacks[farm]
 
@@ -51,12 +51,12 @@ class VillageManager:
 
             perf = ""
             if data["high_profile"]:
-                perf = "High Profile "
+                perf = "Wysoki profil "
             if "low_profile" in data and data["low_profile"]:
-                perf = "Low Profile "
+                perf = "Niski profil "
             if verbose:
                 logger.info(
-                    "%sFarm village %s attacked %d times - Total loot: %s - Total units lost: %d (%.2f)",
+                    "%sWieś farmy %s zaatakowana %d razy - Całkowity łup: %s - Całkowita strata jednostek: %d (%.2f)",
                     perf, farm, len(num_attack), str(loot), total_loss_count, percentage_lost
                 )
             if len(num_attack):
@@ -69,7 +69,7 @@ class VillageManager:
                     ):
                         if verbose:
                             logger.info(
-                                "Farm %s has very low resources (%d avg total), extending farm time",
+                                "Farma %s ma bardzo mało zasobów (%d średnio razem), przedłużanie czasu farmy",
                                 farm, total / len(num_attack)
                             )
                         data["low_profile"] = True
@@ -79,19 +79,19 @@ class VillageManager:
                     ):
                         if verbose:
                             logger.info(
-                                "Farm %s has very high resources (%d avg total), setting to high profile",
+                                "Farma %s ma bardzo dużo zasobów (%d średnio razem), ustawianie na wysoki profil",
                                 farm, total / len(num_attack)
                             )
                         data["high_profile"] = True
                         AttackCache.set_cache(farm, data)
 
             if percentage_lost > 20 and not data["low_profile"]:
-                logger.warning(f"Dangerous {percentage_lost} percentage lost units! Extending farm time")
+                logger.warning(f"Niebezpieczne {percentage_lost} procent straconych jednostek! Przedłużanie czasu farmy")
                 data["low_profile"] = True
                 data["high_profile"] = False
                 AttackCache.set_cache(farm, data)
             if percentage_lost > 50 and len(num_attack) > 10:
-                logger.critical("Farm seems too dangerous/ unprofitable to farm. Setting safe to false!")
+                logger.critical("Farma wydaje się zbyt niebezpieczna/nieopłacalna do farmy. Ustawianie bezpiecznego na false!")
                 data["safe"] = False
                 AttackCache.set_cache(farm, data)
 
@@ -102,11 +102,11 @@ class VillageManager:
             list_of_files = sorted(["./cache/reports/" + f for f in os.listdir("./cache/reports/")],
                                    key=os.path.getctime)
 
-            logger.info(f"Found {len(list_of_files)} files")
+            logger.info(f"Znaleziono {len(list_of_files)} plików")
 
             while len(list_of_files) > clean_reports:
                 oldest_file = list_of_files.pop(0)
-                logger.info(f"Delete old report ({oldest_file})")
+                logger.info(f"Usuwanie starego raportu ({oldest_file})")
                 os.remove(os.path.abspath(oldest_file))
 
 

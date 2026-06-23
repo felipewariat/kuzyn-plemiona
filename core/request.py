@@ -1,5 +1,5 @@
 """
-Class for using one generic cookie jar, emulating a single tab
+Klasa do używania jednego generycznego słoika ciastek, emulująca jedną kartę
 """
 
 import requests
@@ -18,7 +18,7 @@ from core.reporter import ReporterObject
 
 class WebWrapper:
     """
-    WebWrapper object for sending HTTP requests
+    Obiekt WebWrapper do wysyłania żądań HTTP
     """
     web = None
     headers = {
@@ -26,7 +26,7 @@ class WebWrapper:
         'upgrade-insecure-requests': '1'
     }
     endpoint = None
-    logger = logging.getLogger("Requests")
+    logger = logging.getLogger("Żądania")
     server = None
     last_response = None
     last_h = None
@@ -37,7 +37,7 @@ class WebWrapper:
 
     def __init__(self, url, server=None, endpoint=None, reporter_enabled=False, reporter_constr=None):
         """
-        Construct the session and detect variables
+        Skonstruuj sesję i wykryj zmienne
         """
         self.web = requests.session()
         self.auth_endpoint = url
@@ -47,12 +47,12 @@ class WebWrapper:
 
     def post_process(self, response):
         """
-        Post-processes all requests and stores data used for the next request
+        Przetwarzanie powyżej wszystkich żądań i przechowywanie danych używanych w następnym żądaniu
         """
         xsrf = re.search('<meta content="(.+?)" name="csrf-token"', response.text)
         if xsrf:
             self.headers['x-csrf-token'] = xsrf.group(1)
-            self.logger.debug("Set CSRF token")
+            self.logger.debug("Ustawiony token CSRF")
         elif 'x-csrf-token' in self.headers:
             del self.headers['x-csrf-token']
         self.headers['Referer'] = response.url
@@ -63,7 +63,7 @@ class WebWrapper:
 
     def get_url(self, url, headers=None):
         """
-        Fetches a URL using a basic GET request
+        Pobiera adres URL za pomocą podstawowego żądania GET
         """
         self.headers['Origin'] = (self.endpoint if self.endpoint else self.auth_endpoint).rstrip('/')
         if not self.priority_mode:
@@ -76,11 +76,11 @@ class WebWrapper:
             self.logger.debug("GET %s [%d]", url, res.status_code)
             self.post_process(res)
             if 'data-bot-protect="forced"' in res.text:
-                self.logger.warning("Bot protection hit! cannot continue")
+                self.logger.warning("Ochrona przed botami uruchomiona! nie można kontynuować")
                 self.reporter.report(
-                    0, "TWB_RECAPTCHA", "Stopping bot, press any key once captcha has been solved")
-                Notification.send("Bot protection hit! cannot continue")
-                input("Press any key...")
+                    0, "TWB_RECAPTCHA", "Zatrzymywanie bota, naciśnij dowolny klawisz po rozwiązaniu captchy")
+                Notification.send("Ochrona przed botami uruchomiona! nie można kontynuować")
+                input("Naciśnij dowolny klawisz...")
                 return self.get_url(url, headers)
             return res
         except Exception as e:
@@ -89,7 +89,7 @@ class WebWrapper:
 
     def post_url(self, url, data, headers=None):
         """
-        Sends a basic POST request with urlencoded postdata
+        Wysyła podstawowe żądanie POST z danymi zakodowanymi w URL
         """
         if not self.priority_mode:
             time.sleep(
@@ -111,7 +111,7 @@ class WebWrapper:
 
     def start(self, ):
         """
-        Start the bot and verify whether the last session is still valid
+        Uruchom bota i sprawdź, czy ostatnia sesja jest nadal ważna
         """
         session_data = FileManager.load_json_file("cache/session.json")
         if session_data:
@@ -174,7 +174,7 @@ class WebWrapper:
 
     def post_api_data(self, village_id, action, params={}, data={}):
         """
-        Simulates an API request
+        Symuluje żądanie API
         """
         custom = dict(self.headers)
         custom['accept'] = "application/json, text/javascript, */*; q=0.01"
@@ -199,7 +199,7 @@ class WebWrapper:
 
     def get_api_action(self, village_id, action, params={}, data={}):
         """
-        Simulates an API action being triggered
+        Symuluje akcję API będącą uruchamianą
         """
         custom = dict(self.headers)
         custom['Accept'] = "application/json, text/javascript, */*; q=0.01"

@@ -1,6 +1,6 @@
 """
-Attack manager
-Sounds dangerous but it just sends farms
+Menedżer ataków
+Brzmmi niebezpiecznie, ale to tylko wysyła farmy
 """
 
 from core.extractors import Extractor
@@ -14,7 +14,7 @@ from core.filemanager import FileManager
 
 class AttackManager:
     """
-    Attackmanager class
+    Klasa menedżera ataków
     """
     map = None
     village_id = None
@@ -32,22 +32,22 @@ class AttackManager:
     farm_maxpoints = 1000
     ignored = []
 
-    # Configures the amount of spies used to detect if villages are safe to farm
+    # Konfiguruje liczbę zwiadowców używanych do wykrycia, czy wsie są bezpieczne do farmy
     scout_farm_amount = 5
 
     forced_peace_time = None
 
-    # blocks villages which cannot be attacked at the moment (too low points, beginners protection etc..)
+    # blokuje wsie, które nie mogą być atakowane w tej chwili (zbyt niskie punkty, ochrona początkujących itp..)
     _unknown_ignored = []
 
-    # Don't mess with these they are in the config file
+    # Nie mieszaj z nimi, są w pliku konfiguracyjnym
     farm_high_prio_wait = 1200
     farm_default_wait = 3600
     farm_low_prio_wait = 7200
 
     def __init__(self, wrapper=None, village_id=None, troopmanager=None, map=None):
         """
-        Create the attack manager
+        Utwórz menedżera ataków
         """
         self.wrapper = wrapper
         self.village_id = village_id

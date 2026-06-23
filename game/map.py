@@ -1,5 +1,5 @@
 """
-Map management, pls don't read this code.
+Zarządzanie mapą, prośę nie czytaj tego kodu.
 """
 import logging
 import math
@@ -11,7 +11,7 @@ from core.filemanager import FileManager
 
 class Map:
     """
-    Class to manage the world around you
+    Klasa do zarządzania światem wokolico Ciebie
     """
     wrapper = None
     village_id = None
@@ -24,14 +24,14 @@ class Map:
 
     def __init__(self, wrapper=None, village_id=None):
         """
-        Creates the map files
+        Tworzy pliki mapy
         """
         self.wrapper = wrapper
         self.village_id = village_id
 
     def get_map(self):
         """
-        Fetch the map every 24ish hours and update the cache entries
+        Pobierz mapę co około 24 godziny i zaktualizuj wpisy pamięci podręcznej
         """
         if self.last_fetch + (self.fetch_delay * 3600) > time.time():
             return
@@ -79,7 +79,7 @@ class Map:
 
     def get_map_old(self, game_state):
         """
-        Old method of parsing the map, might work, might not, who knows
+        Stara metoda parsowania mapy, może działać, może nie, kto wie
         """
         if self.map_data:
             for tile in self.map_data:

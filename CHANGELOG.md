@@ -1,32 +1,32 @@
-### New in 1.6
-- Bugfixes
-- Found the bug where villages were not detected automatically
+### Nowe w 1.6
+- Naprawy błędów
+- Znaleziono błąd, w którym wsie nie były automatycznie wykrywane
 
-### New in 1.5
-- Nice configuration dashboard
-- Various bug fixes
+### Nowe w 1.5
+- Ładny pulpit konfiguracyjny
+- Różne naprawy błędów
 
-### New in 1.4.4
-- Fixed snob (both systems working again)
-- Fixed various crashes and bugs
-- Configurable delay between requests (0.7 for fast, 2.0 for very slow)
+### Nowe w 1.4.4
+- Naprawiona szlachta (oba systemy działają ponownie)
+- Naprawiono różne awarie i błędy
+- Konfigurowalne opóźnienie między żądaniami (0,7 na szybko, 2,0 na bardzo wolno)
 
-### New in 1.4.2
-- Automatically add new villages once conquered
-- Working attack simulator (partially)
-- Integrated farm manager into core code
-- Few bug fixes
+### Nowe w 1.4.2
+- Automatyczne dodawanie nowych wsi po podboju
+- Działający symulator ataków (częściowo)
+- Zintegrowany menedżer farmy w kod rdzenia
+- Kilka napraw błędów
 
-### New in v1.4.1
-- Automatic upgrading of out-dated config files
-- Removed selenium (inc. Web Driver)
-- How-To readme
-- Minor bug-fixes
+### Nowe w v1.4.1
+- Automatyczna aktualizacja przestarzałych plików konfiguracyjnych
+- Usunięte selenium (w tym Web Driver)
+- Plik Jak-to
+- Drobne naprawy błędów
 
-### New in v1.4
-- Reworked config methods so the bot works with all config versions (with warnings tho)
-- Automatic requesting and sending support
-- Attack / resource flag management
-- Automatic evacuation of high-profile units (snob, axe)
-- Found out why snob recruiting was not working (fix in progress)
-- Minor bug-fixes
+### Nowe w v1.4
+- Przepracowane metody config, aby bot działał ze wszystkimi wersjami config (z ostrzeżeniami)
+- Automatyczne żądanie i wysyłanie obsługi
+- Zarządzanie flagami ataku / zasobów
+- Automatyczna ewakuacja jednostek o wysokim profilu (szlachta, siekiera)
+- Dowiedziałem się, dlaczego rekrutacja szlachty nie działała (naprawa w toku)
+- Drobne naprawy błędów

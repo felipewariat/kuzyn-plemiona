@@ -1,5 +1,5 @@
 """
-This module can be used in order to report actions to a file or remote MySQL server
+Ten moduł można użyć aby raportować akcje do pliku lub zdalnego serwera MySQL
 """
 import logging
 import time
@@ -15,36 +15,36 @@ except ImportError:
 
 class RemoteReporter:
     """
-    Base class for a reporter object
+    Klasa bazowa dla obiektu raportera
     """
     def report(self, connection, village_id, action, data):
         """
-        Sets report data
+        Ustawia dane raportu
         """
         return
 
     def add_data(self, connection, village_id, data_type, data):
         """
-        Sets type-specific data
+        Ustawia dane specyficzne dla typu
         """
         return
 
     def get_config(self, connection, village_id, action, data):
         """
-        Gets the configuration from reporter
+        Pobiera konfiguracjaę z raportera
         """
         return
 
     def setup(self, connection):
         """
-        Set-up the reporter
+        Konfiguruj reporter
         """
         return
 
 
 class FileReporter:
     """
-    Reporter that writes data to a text file
+    Reporter, który zapisuje dane do pliku tekstowego
     """
     def report(self, connection, village_id, action, data):
         """

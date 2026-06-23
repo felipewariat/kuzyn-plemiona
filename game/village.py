@@ -52,11 +52,11 @@ class Village:
 
     def get_config(self, section, parameter, default=None):
         if section not in self.config:
-            self.logger.warning("Configuration section %s does not exist!" % section)
+            self.logger.warning("Sekcja konfiguracji %s nie istnieje!" % section)
             return default
         if parameter not in self.config[section]:
             self.logger.warning(
-                "Configuration parameter %s:%s does not exist!" % (section, parameter)
+                "Parametr konfiguracji %s:%s nie istnieje!" % (section, parameter)
             )
             return default
         return self.config[section][parameter]
@@ -75,7 +75,7 @@ class Village:
 
     def village_init(self):
         """
-        Init the village entry and send first request
+        Inicjuj wpis wsi i wyślij pierwsze żądanie
         """
         if not self.village_id:
             data = self.wrapper.get_url("game.php?screen=overview&intro")
@@ -111,7 +111,7 @@ class Village:
 
     def set_world_config(self):
         """
-        Sets basic world options
+        Ustaw podstawowe opcje świata
         """
         self.disabled_units = []
         if not self.get_config(
@@ -131,7 +131,7 @@ class Village:
 
     def update_pre_run(self):
         """
-        Manage defence, resources and reports
+        Zarządzaj obroną, zasobami i raportami
         """
         if not self.resman:
             self.resman = ResourceManager(

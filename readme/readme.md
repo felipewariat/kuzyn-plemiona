@@ -1,42 +1,42 @@
 
 
-# How-to
-Help file for explaining the bot workflow
+# Jak-to
+Plik pomocy do wyjaśniania przepływu pracy bota
 
-### New player
-The bot should work from the moment you first join a world.
-It will automatically build the first buildings and complete the first quests (if enabled).
-When the barracks is built the recruitment process should start. 
-If the first spear units start rolling off the conveyor belt the farm process should also start to do its thing.
+### Nowy gracz
+Bot powinien działać od momentu, gdy po raz pierwszy dołączysz do świata.
+Automatycznie będzie budować pierwsze budynki i ukończać pierwsze zadania (jeśli włączone).
+Po zbudowaniu koszar proces rekrutacji powinien się rozpocząć. 
+Gdy pierwsze jednostki włóczni zaczną się tworzyć, proces farmy powinien również zacząć działać.
 
-In some time the bot should also start to figure out which units to research / upgrade. 
+Po pewnym czasie bot powinien również zacząć rozpoznawać, które jednostki badać / ulepszać.
 
 
-### After some time
-If your buildings have reached some higher levels the bot starts to create market trades.
-This allows the building process to keep working at high efficiency.
+### Po pewnym czasie
+Gdy twoje budynki osiągną wyższe poziomy, bot zaczyna tworzyć transakcje na targu.
+Pozwala to procesowi budowania pracować z wysoką wydajnością.
 
-Whenever the world has the "flags" system enabled the bot will also attempt to upgrade and set the highest "resource bonus" flag.
-At this point farming tweak system (manager.py) should be able to detect which farms have the highest / lowest resource gain and automatically tweak the village parameters.
+Ilekroć świat ma włączony system "flag", bot będzie również próbować ulepszać i ustawiać najwyższą flagę "bonusu zasobów".
+W tym momencie system dostrajania farmy (manager.py) powinien być w stanie wykryć, które farmy mają najwyższy / najniższy zysk zasobów i automatycznie dostroić parametry wioski.
 
-### After some more time
-You will reach the point where other players can attack you. 
-They might think your village is an easy target but with the right parameters set you will have a very good army.
+### Po jeszcze większym czasie
+Osiągniesz punkt, w którym inni gracze mogą cię atakować. 
+Mogą myśleć, że twoja wieś to łatwy cel, ale dzięki prawidłowo ustawionym parametrom będziesz mieć bardzo dobrą armię.
 
-Whenever an incoming attack is detected the bot will stop the farming process and automatically set the highest "defence bonus" flag.
-Valuable (or crappy defensive) units will be evacuated whenever you have more then one village.
+Ilekroć zostanie wykryta wpadająca atak, bot zatrzyma proces farmy i automatycznie ustawi najwyższą flagę "bonusu obrony".
+Wartościowe (lub do kitu obronę) jednostki zostaną ewakuowane, ilekroć masz więcej niż jedną wioskę.
 
-If the bot also has the "manage_defence" option enabled it will send defensive units as support.
-This part can be configured per village
+Jeśli bot ma również włączoną opcję "manage_defence", wyśle jednostki obronne jako wsparcie.
+Ta część można skonfigurować dla każdej wioski
 
-### Mid/Late game
-Once you have reached the stage where the snob is built you can set the snob parameter on the village to 1.
-This will start to create the necessary coins and will train a snob.
+### Gra średnio/późna
+Po osiągnięciu etapu, w którym szlachta jest zbudowana, możesz ustawić parametr szlachty na wiosce na 1.
+To będzie tworzyć niezbędne monety i będzie trenować szlachtę.
 
-If you want stuff experimental you can set the current farm configuration to contain a snob. This will slowly start to take-over all surrounding farm villages :)
+Jeśli chcesz czegoś eksperymentalnego, możesz ustawić bieżącą konfigurację farmy na zawierającą szlachtę. To powoli zacznie przejęć wszystkie otaczające wsie farmy :)
 
-Once more villages are achieved you can set the bot to automatically copy the existing configuration to new ones. Preferably you set them manually since you probably want to tweak some stuff. 
+Po uzyskaniu więcej wsi możesz ustawić bota do automatycznego kopiowania istniejącej konfiguracji na nowe. Najlepiej ustaw je ręcznie, ponieważ prawdopodobnie będziesz chciał coś dostosować. 
 
-I would also suggest you keep playing using the browser session once in a while, you might run into some captcha's which the bot will break on :)
+Sugeruję również, abyś od czasu do czasu kontynuował grę, używając sesji przeglądarki, możesz natknąć się na captche, które bot złamie :)
 
-Have fun!
+Baw się dobrze!

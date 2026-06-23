@@ -9,7 +9,7 @@ from core.request import WebWrapper
 
 
 class Point:
-    """Represents a point with x and y coordinates."""
+    """Reprezentuje punkt ze współrzędnymi x i y."""
 
     def __init__(self, x: int, y: int):
         if not isinstance(x, int):
@@ -23,13 +23,13 @@ class Point:
         return f"({self.x}|{self.y})"
 
     def __eq__(self, other: "Point") -> bool:
-        """Check if two Point instances have the same coordinates."""
+        """Sprawdź, czy dwie instancje Point mają te same współrzędne."""
         if isinstance(other, Point):
             return self.x == other.x and self.y == other.y
         return False
 
     def distance_to(self, other: "Point") -> float:
-        """Calculate the square of the distance between this point and another point."""
+        """Oblicz kwadrat odległości między tym punktem a innym punktem."""
         return (self.x - other.x) ** 2 + (self.y - other.y) ** 2
 
     def __str__(self):
@@ -37,7 +37,7 @@ class Point:
 
 
 class Farm:
-    """Represents farm population."""
+    """Reprezentuje populację farmy."""
 
     def __init__(self, population: str):
         """

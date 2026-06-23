@@ -1,5 +1,5 @@
 """
-Report management
+Zarządzanie raportami
 """
 import json
 import logging
@@ -12,7 +12,7 @@ from core.filemanager import FileManager
 
 class ReportManager:
     """
-    Class to "efficiently" manage reports
+    Klasa do "efektywnego" zarządzania raportami
     """
     wrapper = None
     village_id = None
@@ -22,15 +22,15 @@ class ReportManager:
 
     def __init__(self, wrapper=None, village_id=None):
         """
-        Creates the report manager
+        Tworzy menedżera raportów
         """
         self.wrapper = wrapper
         self.village_id = village_id
 
     def has_resources_left(self, vid):
         """
-        Checks if there are any resources left after farm
-        Used by the farm manager script
+        Sprawdza, czy zostały jakieś zasoby po farmie
+        Używane przez skrypt menedżera farmy
         """
         possible_reports = []
         for repid in self.last_reports:
@@ -43,7 +43,7 @@ class ReportManager:
 
         def highest_when(attack):
             """
-            Converts the date of an attack when resource gains were high
+            Konwertuje datę ataku, gdy zyski z zasobów były wysokie
             """
             return datetime.fromtimestamp(int(attack["extra"]["when"]))
 

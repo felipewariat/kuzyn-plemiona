@@ -1,5 +1,5 @@
 """
-Anything with resources goes here
+Wszystko co związane z zasobami trafia tutaj
 """
 import logging
 import re
@@ -10,7 +10,7 @@ from core.extractors import Extractor
 
 class PremiumExchange:
     """
-    Logic for interaction with the premium exchange
+    Logika interakcji z wymianą premialnych zasobców
     """
 
     def __init__(self, wrapper, stock: dict, capacity: dict, tax: dict, constants: dict, duration: int, merchants: int):
@@ -25,7 +25,7 @@ class PremiumExchange:
     # do not call this anihilation (calculate_cost) - i dechipered it from tribalwars js
     def calculate_cost(self, item, a):
         """
-        Stock exchange cost calculation
+        Obliczenie kosztu giełdy zapasów
         """
         t = self.stock[item]
         n = self.capacity[item]
@@ -37,14 +37,14 @@ class PremiumExchange:
 
     def calculate_marginal_price(self, e, a):
         """
-        Math magic
+        Matematyczna magia
         """
         c = self.constants
         return c["resource_base_price"] - c["resource_price_elasticity"] * e / (a + c["stock_size_modifier"])
 
     def calculate_rate_for_one_point(self, item: str):
         """
-        Math magic
+        Matematyczna magia
         """
         a = self.stock[item]
         t = self.capacity[item]

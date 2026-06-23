@@ -9,7 +9,7 @@
 		  </li>
 		{% endfor %}
 	</ul>
-	 <a id="save_config" class="btn btn-success disabled">Save</a>
+	 <a id="save_config" class="btn btn-success disabled">Zapisz</a>
 </div>
 
 <div class="row border">
@@ -43,11 +43,11 @@
 		if(!value) {
 			target.removeClass("btn-success");
 			target.addClass("btn-danger");
-			target.text("Disabled");
+			target.text("Wyłączony");
 		} else {
 			target.addClass("btn-success");
 			target.removeClass("btn-danger");
-			target.text("Enabled");
+			target.text("Włączony");
 		}
 	}
 
