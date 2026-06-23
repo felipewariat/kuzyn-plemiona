@@ -31,6 +31,13 @@ class AttackManager:
     farm_minpoints = 0
     farm_maxpoints = 1000
     ignored = []
+    farm_assistant = False
+    farm_assistant_button = "AUTO"
+    farm_assistant_auto_wall_threshold = 1
+    farm_min_wall = 0
+    farm_max_wall = 1000
+    farm_assistant_targets = {}
+    farm_assistant_targets_loaded = False
 
     # Konfiguruje liczbę zwiadowców używanych do wykrycia, czy wsie są bezpieczne do farmy
     scout_farm_amount = 5
@@ -103,7 +110,10 @@ class AttackManager:
         if not missing:
             cached = self.can_attack(vid=target["id"], clear=False)
             if cached:
-                attack_result = self.attack(target["id"], troops=template)
+                if self.farm_assistant:
+                    attack_result = self.attack_with_assistant(target["id"], troops=template)
+                else:
+                    attack_result = self.attack(target["id"], troops=template)
                 if attack_result == "forced_peace":
                     return 0
                 self.logger.info(
@@ -394,6 +404,81 @@ class AttackManager:
         )
 
         return result
+
+    def ensure_farm_assistant_targets(self):
+        if self.farm_assistant_targets_loaded:
+            return
+        self.farm_assistant_targets = {}
+        url = f"game.php?village={self.village_id}&screen=am_farm"
+        page = self.wrapper.get_url(url)
+        if not page:
+            return
+        self.farm_assistant_targets.update(Extractor.farm_assistant_targets(page))
+        for pagination_url in Extractor.farm_assistant_pagination(page):
+            next_page = self.wrapper.get_url(pagination_url)
+            if next_page:
+                self.farm_assistant_targets.update(Extractor.farm_assistant_targets(next_page))
+        self.farm_assistant_targets_loaded = True
+
+    def get_farm_assistant_link(self, vid):
+        self.ensure_farm_assistant_targets()
+        vid = str(vid)
+        target = self.farm_assistant_targets.get(vid)
+        if not target:
+            return None
+        wall = target.get("wall", 0)
+        if wall < self.farm_min_wall or wall > self.farm_max_wall:
+            return None
+        button = self.farm_assistant_button.upper()
+        if button == "AUTO":
+            button = "A" if wall >= self.farm_assistant_auto_wall_threshold else "B"
+        if button in target["links"]:
+            return target["links"][button]
+        for fallback in ["A", "B", "C"]:
+            if fallback in target["links"]:
+                return target["links"][fallback]
+        return None
+
+    def attack_with_assistant(self, vid, troops=None):
+        link = self.get_farm_assistant_link(vid)
+        if not link:
+            self.logger.debug(
+                "No farm assistant link for %s with button %s", vid, self.farm_assistant_button
+            )
+            return False
+        pre_attack = self.wrapper.get_url(link)
+        if not pre_attack:
+            return False
+        pre_data = {}
+        for u in Extractor.attack_form(pre_attack):
+            k, v = u
+            pre_data[k] = v
+        if troops:
+            pre_data.update(troops)
+        if vid not in self.map.map_pos:
+            return False
+        x, y = self.map.map_pos[vid]
+        if "x" not in pre_data or "y" not in pre_data:
+            pre_data.update({"x": x, "y": y, "target_type": "coord"})
+        confirm_url = f"game.php?village={self.village_id}&screen=place&try=confirm"
+        conf = self.wrapper.post_url(url=confirm_url, data=pre_data)
+        if not conf or '<div class="error_box">' in conf.text:
+            return False
+        confirm_data = {}
+        for u in Extractor.attack_form(conf):
+            k, v = u
+            if k == "support":
+                continue
+            confirm_data[k] = v
+        confirm_data.update({"building": "main", "h": self.wrapper.last_h})
+        if "x" not in confirm_data:
+            confirm_data["x"] = x
+        return self.wrapper.get_api_action(
+            village_id=self.village_id,
+            action="popup_command",
+            params={"screen": "place"},
+            data=confirm_data,
+        )
 
 
 class AttackCache:

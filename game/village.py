@@ -446,6 +446,21 @@ class Village:
         self.attack.scout_farm_amount = self.get_config(
             section="farms", parameter="farm_scout_amount", default=5
         )
+        self.attack.farm_assistant = self.get_config(
+            section="farms", parameter="farm_assistant", default=False
+        )
+        self.attack.farm_assistant_button = self.get_config(
+            section="farms", parameter="farm_assistant_button", default="AUTO"
+        )
+        self.attack.farm_assistant_auto_wall_threshold = self.get_config(
+            section="farms", parameter="farm_assistant_wall_threshold", default=1
+        )
+        self.attack.farm_min_wall = self.get_config(
+            section="farms", parameter="farm_assistant_min_wall", default=0
+        )
+        self.attack.farm_max_wall = self.get_config(
+            section="farms", parameter="farm_assistant_max_wall", default=1000
+        )
         if self.current_unit_entry:
             self.attack.template = self.current_unit_entry["farm"]
 

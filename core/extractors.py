@@ -211,6 +211,45 @@ class Extractor:
         return data
 
     @staticmethod
+    def farm_assistant_pagination(res):
+        """
+        Detects additional farm assistant pages from pagination
+        """
+        if type(res) != str:
+            res = res.text
+        return re.findall(r'<a[^>]+class="[^"]*paged-nav-item[^"]*"[^>]+href="([^"]+)"', res)
+
+    @staticmethod
+    def farm_assistant_targets(res):
+        """
+        Extracts available farm assistant target links and wall levels
+        """
+        if type(res) != str:
+            res = res.text
+        targets = {}
+        rows = re.findall(r'(?s)<tr[^>]*>(.*?)</tr>', res)
+        for row in rows:
+            if 'farm_icon_' not in row:
+                continue
+            tds = re.findall(r'(?s)<td[^>]*>(.*?)</td>', row)
+            wall = 0
+            if len(tds) > 6:
+                wall_text = re.sub(r'<.*?>', '', tds[6]).strip()
+                digits = re.findall(r'-?\d+', wall_text)
+                if digits:
+                    wall = int(digits[0])
+            for action, href in re.findall(r'<a[^>]+class="[^"]*farm_icon_([abc])[^"]*"[^>]+href="([^"]+)"', row):
+                match = re.search(r'farm_icon_[abc]=(\d+)', href)
+                if not match:
+                    match = re.search(r'target=(\d+)', href)
+                if not match:
+                    continue
+                vid = match.group(1)
+                target = targets.setdefault(vid, {'wall': wall, 'links': {}})
+                target['links'][action.upper()] = href
+        return targets
+
+    @staticmethod
     def attack_duration(res):
         """
         Detects the duration of an attack

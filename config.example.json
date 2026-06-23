@@ -78,7 +78,12 @@
     "attack_higher_points": false,
     "force_scout_if_available": true,
     "forced_peace_times": [],
-    "farm_scout_amount": 5
+    "farm_scout_amount": 5,
+    "farm_assistant": false,
+    "farm_assistant_button": "AUTO",
+    "farm_assistant_wall_threshold": 1,
+    "farm_assistant_min_wall": 0,
+    "farm_assistant_max_wall": 1000
   },
   "market": {
     "auto_trade": true,
