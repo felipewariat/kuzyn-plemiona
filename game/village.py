@@ -451,7 +451,7 @@ class Village:
             self.attack.farm_high_prio_wait = farms_conf.get("full_loot_away_time", 1800)
             self.attack.farm_low_prio_wait = farms_conf.get("low_loot_away_time", 7200)
             self.attack.scout_farm_amount = farms_conf.get("farm_scout_amount", 5)
-            self.attack.farm_assistant = farms_conf.get("farm_assistant", False)
+            self.attack.farm_assistant = farms_conf.get("farm_assistant", False) or farms_conf.get("farm", False)
             self.attack.farm_assistant_button = farms_conf.get("farm_assistant_button", "AUTO")
             self.attack.farm_assistant_auto_wall_threshold = farms_conf.get(
                 "farm_assistant_wall_threshold", 1
@@ -492,10 +492,7 @@ class Village:
                     self.attack.forced_peace_time = self.forced_peace_today_start
                 self.set_farm_options()
 
-                if (
-                        self.get_config(section="farms", parameter="farm", default=False)
-                        and not self.def_man.under_attack
-                ):
+                if self.attack.farm_assistant and not self.def_man.under_attack:
                     self.attack.extra_farm = self.get_village_config(
                         self.village_id, parameter="additional_farms", default=[]
                     )
