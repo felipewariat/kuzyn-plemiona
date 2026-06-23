@@ -100,8 +100,8 @@ class TWB:
             )
             return False
         logging.info(
-            "Please enter the current (logged-in) URL of the world you are playing on (or q to exit)"
-            "The URL should look something like this:\n"
+            "Proszę podać aktualny (zalogowany) adres URL świata, na którym grasz (lub q aby zakończyć)"
+            "Adres URL powinien wyglądać mniej więcej tak:\n"
             "https://nl01.tribalwars.nl/game.php?village=12345&screen=overview"
         )
         input_url = input("URL: ")
@@ -112,31 +112,31 @@ class TWB:
         sub_parts = server.split(".")[0]
         logging.info("Game endpoint: %s", game_endpoint)
         logging.info("World: %s", sub_parts.upper())
-        check = input("Does this look correct? [nY]")
+        check = input("Czy to wygląda poprawnie? [nY]")
         if "y" in check.lower():
             browser_ua = input(
-                "Enter your browser user agent "
-                "(to lower detection rates). Just google what is my user agent> "
+                "Wprowadź user-agenta swojej przeglądarki "
+                "(obniża wykrywalność). Wyszukaj 'what is my user agent'> "
             )
             if browser_ua and len(browser_ua) < 10:
                 logging.error(
-                    "It should start with Chrome, Firefox or something. Please try again"
+                    "Powinien zaczynać się od Chrome, Firefox lub podobnego. Spróbuj ponownie"
                 )
                 return self.manual_config()
             browser_ua = browser_ua.strip()
             disclaimer = """
-            Read carefully: Please note the use of this bot can cause bans, kicks, annoyances and other stuff.
-            I do my best to make the bot as undetectable as possible but most issues / bans are config related.
-            Make sure you keep your bot sleeps at a reasonable numbers and please don't blame me if your account gets banned ;) 
-            PS. make sure to regularly (1-2 per day) logout/login using the browser session and supply the new cookie string. 
-            Using a single session for 24h straight will probably result in a ban
+            Przeczytaj uważnie: Używanie tego bota może spowodować bany, kicki, problemy i inne nieprzyjemności.
+            Dokładam starań, aby bot był jak najmniej wykrywalny, ale większość problemów / banów wynika z konfiguracji.
+            Upewnij się, że przerwy (sleeps) bota są ustawione rozsądnie i nie obwiniaj mnie, jeśli twoje konto zostanie zbanowane ;)
+            PS. pamiętaj, aby regularnie (1-2 razy dziennie) wylogowywać/logować się przez sesję przeglądarki i dostarczać nowy ciąg cookie.
+            Używanie pojedynczej sesji przez 24h prawdopodobnie skończy się banem
             """
             logging.info(disclaimer)
             final_check = input(
-                "Do you understand this and still wish to continue, please type: yes and press enter> "
+                "Czy to rozumiesz i chcesz kontynuować? wpisz: tak i naciśnij Enter> "
             )
-            if "yes" not in final_check.lower():
-                logging.info("Goodbye :)")
+            if "tak" not in final_check.lower():
+                logging.info("Do widzenia :)")
                 sys.exit(0)
 
             template = FileManager.load_json_file("config.example.json", object_pairs_hook=collections.OrderedDict)
@@ -148,10 +148,10 @@ class TWB:
             template["bot"]["user_agent"] = browser_ua
 
             FileManager.save_json_file(template, "config.json")
-            print("Deployed new configuration file")
+            print("Zapisano nowy plik konfiguracyjny")
             return True
 
-        print("Make sure your url starts with https:// and contains the game.php? part")
+        print("Upewnij się, że adres URL zaczyna się od https:// i zawiera game.php?")
         return self.manual_config()
 
     def config(self):
@@ -166,22 +166,22 @@ class TWB:
             if self.manual_config():
                 return self.config()
 
-            print("No config file found. Exiting")
+            print("Nie znaleziono pliku konfiguracyjnego. Kończę.")
             sys.exit(1)
 
         config = FileManager.load_json_file("config.json", object_pairs_hook=collections.OrderedDict)
 
         if template and config["build"]["version"] != template["build"]["version"]:
             print(
-                "Outdated config file found, merging (old copy saved as config.bak)\n"
-                "Remove config.example.json to disable this behavior"
+                "Znaleziono przestarzały plik konfiguracyjny, scalanie (stara kopia zapisana jako config.bak)\n"
+                "Usuń config.example.json, aby wyłączyć to zachowanie"
             )
             FileManager.copy_file("config.json", "config.bak")
 
             config = self.merge_configs(config, template)
             FileManager.save_json_file(config, "config.json")
 
-            print("Deployed new configuration file")
+            print("Zapisano nowy plik konfiguracyjny")
 
         return config
 
@@ -217,7 +217,7 @@ class TWB:
             for found_vid in self.found_villages:
                 if found_vid not in config["villages"]:
                     print(
-                        f"Village {found_vid} was found but no config entry was found. Adding automatically"
+                        f"Znaleziono wieś {found_vid}, brak wpisu w konfiguracji. Dodaję automatycznie"
                     )
                     config = self.add_village(village_id=found_vid)
 
@@ -237,7 +237,7 @@ class TWB:
         original["villages"][village_id] = template if template else original["village_template"]
 
         FileManager.save_json_file(original, "config.json")
-        print("Deployed new configuration file")
+        print("Zapisano nowy plik konfiguracyjny")
         return original
 
     @staticmethod
@@ -284,7 +284,7 @@ class TWB:
         Notification.send("TWB is starting up")
         config = self.config()
         if not self.internet_online():
-            print("Internet seems to be down, waiting till its back online...")
+            print("Wygląda na to, że internet jest niedostępny, czekam aż wróci...")
             sleep = 0
             if self.is_active_hours(config=config):
                 sleep = config["bot"]["active_delay"]
@@ -312,9 +312,9 @@ class TWB:
         self.wrapper.start()
         if not config["bot"].get("user_agent", None):
             print(
-                "No custom user agent was supplied, this will likely get you banned."
-                "Please set the bot -> user_agent parameter to your browsers one. "
-                "Just google what is my user agent"
+                "Nie podano własnego user-agenta — może to spowodować bana. "
+                "Ustaw parametr bot -> user_agent na user-agenta swojej przeglądarki. "
+                "Wyszukaj 'what is my user agent'"
             )
             return
         self.wrapper.headers["user-agent"] = config["bot"]["user_agent"]
@@ -326,7 +326,7 @@ class TWB:
         defense_states = {}
         while self.should_run:
             if not self.internet_online():
-                print("Internet seems to be down, waiting till its back online...")
+                print("Wygląda na to, że internet jest niedostępny, czekam aż wróci...")
                 sleep = 0
                 if self.is_active_hours(config=config):
                     sleep = config["bot"]["active_delay"]
@@ -338,7 +338,7 @@ class TWB:
                 dtn = datetime.datetime.now()
                 dt_next = dtn + datetime.timedelta(0, sleep)
                 print(
-                    "Dead for %.2f minutes (next run at: %s)" % (sleep / 60, dt_next.time())
+                    "Nieaktywne przez %.2f minut (następne uruchomienie: %s)" % (sleep / 60, dt_next.time())
                 )
                 time.sleep(sleep)
             else:
@@ -346,15 +346,15 @@ class TWB:
                 overview_page, config = self.get_overview(config)
                 has_changed, new_cf = self.get_world_options(overview_page, config)
                 if has_changed:
-                    print("Updated world options")
+                    print("Zaktualizowano ustawienia świata")
                     config = self.merge_configs(config, new_cf)
                     FileManager.save_json_file(config, "config.json")
-                    print("Deployed new configuration file")
+                    print("Zapisano nowy plik konfiguracyjny")
                 village_number = 1
                 for village in self.villages:
                     if village.village_id not in self.found_villages:
                         print(
-                            "Village %s will be ignored because it is not available anymore"
+                            "Wieś %s będzie zignorowana, ponieważ nie jest już dostępna"
                             % village.village_id
                         )
                         continue
@@ -393,7 +393,7 @@ class TWB:
 
                 if len(defense_states) and config["farms"]["farm"]:
                     for village in self.villages:
-                        print("Syncing attack states")
+                        print("Synchronizowanie stanów ataku")
                         village.def_man.my_other_villages = defense_states
 
                 sleep = 0

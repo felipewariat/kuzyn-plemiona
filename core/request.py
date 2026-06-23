@@ -122,7 +122,7 @@ class WebWrapper:
             self.logger.warning("Current session cache not valid")
 
         self.web.cookies.clear()
-        cinp = input("Enter browser cookie string> ")
+        cinp = input("Wprowadź ciąg cookie z przeglądarki> ")
         cookies = {}
         cinp = cinp.strip()
         for itt in cinp.split(';'):
