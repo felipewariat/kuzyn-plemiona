@@ -2,6 +2,7 @@ import collections
 import json
 import os
 import subprocess
+import sys
 
 import psutil
 
@@ -185,49 +186,41 @@ class MapBuilder:
 
 
 class BotManager:
-    """Manage bot lifecycle: run TWB in a background thread so output appears in the same console as server."""
+    """Manage bot lifecycle by running TWB as a separate subprocess."""
+
     def __init__(self):
-        self.thread = None
-        self.instance = None
+        self.proc = None
 
     def is_running(self):
-        return True if (self.thread and self.thread.is_alive()) else False
+        return bool(self.proc and self.proc.poll() is None)
 
     def start(self):
         if self.is_running():
-            print("Bot is already running")
+            print("Bot jest już uruchomiony")
             return
         try:
-            # import lazily to avoid circular imports on module load
-            import threading
-            import twb
-
-            def _run_bot():
-                try:
-                    self.instance = twb.TWB()
-                    self.instance.run()
-                except Exception as e:
-                    print(f"Bot thread exited with error: {e}")
-
-            self.thread = threading.Thread(target=_run_bot, daemon=True)
-            self.thread.start()
-            print("Bot started successfully (wątku)")
+            wd = os.path.join(os.path.dirname(__file__), "..")
+            python_exe = sys.executable if hasattr(sys, 'executable') else 'python'
+            self.proc = subprocess.Popen([python_exe, "twb.py"], cwd=wd, shell=False)
+            print("Bot uruchomiony pomyślnie jako proces")
         except Exception as e:
             print("Nie udało się uruchomić bota:", e)
+            self.proc = None
 
     def stop(self):
         if not self.is_running():
             print("Bot nie jest uruchomiony")
             return
         try:
-            # signal the running instance to stop
-            if self.instance:
-                self.instance.should_run = False
-            # wait briefly for thread to exit
-            self.thread.join(timeout=5)
-            if self.thread.is_alive():
-                print("Bot nie zakończył się w oczekiwanym czasie")
-            else:
+            self.proc.terminate()
+            try:
+                self.proc.wait(timeout=5)
                 print("Bot zatrzymany pomyślnie")
+            except subprocess.TimeoutExpired:
+                self.proc.kill()
+                self.proc.wait()
+                print("Bot został zabity po przekroczeniu limitu czasu")
         except Exception as e:
             print("Błąd podczas zatrzymywania bota:", e)
+        finally:
+            self.proc = None
